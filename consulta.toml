@@ -1,0 +1,29 @@
+[system]
+version = "0.1.0"
+type = "consulta"
+description = "Consulta los países del mundo"
+table = "country"
+limit = 10
+dialect = "mysql"
+
+[[field]]
+name = "Code"
+type = "char"
+primary = true
+length = 3
+as = "Código"
+
+[[field]]
+name = "Name"
+type = "char"
+length = 52
+as = "Nombre"
+
+[[field]]
+name = "Region"
+type = "char"
+length = 26
+
+[[field]]
+name = "Population"
+type = "int"
