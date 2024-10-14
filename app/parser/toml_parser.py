@@ -1,7 +1,9 @@
 from parser.parser_base import IParser
 import tomli
+from dataclasses import dataclass
 
 
+@dataclass
 class TOMLParser(IParser):
     def load_file(self, file_path):
         # Cargar el archivo TOML

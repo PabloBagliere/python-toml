@@ -1,3 +1,4 @@
+from dialect.sqlDialect import SQLDialect
 from field.field import Field
 from criteria.criteria import Criteria
 from dialect.mysql_dialect import MySQLDialect
@@ -5,9 +6,15 @@ from dialect.postgresql_dialect import PostgreSQLDialect
 from dialect.sqlite_dialect import SQLiteDialect
 from builder.sql_builder import SQLBuilder
 from parser.parser_base import IParser
+from condition.condition import Condition
+from dataclasses import dataclass
 
 
+@dataclass
 class Container:
+    parser: IParser
+    dialects: dict[str, SQLDialect]
+
     def __init__(self, parser: IParser):
         self.dialects = {
             "mysql": MySQLDialect(),
@@ -35,12 +42,25 @@ class Container:
         # Extraer los campos
         fields = data.get("field", [])
         for field_data in fields:
+            field_conditions = field_data.get("conditions", [])
+            condition_list = []
+            if field_conditions:
+                for condition_data in field_conditions:
+
+                    condition_list.append(
+                        Condition(
+                            operator=condition_data["operator"],
+                            value=condition_data["value"],
+                            condition=condition_data.get("condition", "AND"),
+                        )
+                    )
             field = Field(
                 name=field_data["name"],
                 field_type=field_data["type"],
                 primary=field_data.get("primary", False),
                 length=field_data.get("length", None),
                 alias=field_data.get("as", None),
+                condition=condition_list,
             )
             criteria.add_field(field)
 

@@ -11,13 +11,11 @@ name = "Code"
 type = "char"
 primary = true
 length = 3
-as = "Código"
 
 [[field]]
 name = "Name"
 type = "char"
 length = 52
-as = "Nombre"
 
 [[field]]
 name = "Region"
@@ -27,3 +25,4 @@ length = 26
 [[field]]
 name = "Population"
 type = "int"
+conditions = [{ operator = ">", value = 1000000, condition = 'AND' }]
